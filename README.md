@@ -9,13 +9,38 @@ advice from the world's leading **AI researchers, neuroscientists,
 behavioural scientists, and academics**, synthesises it, and commits a new
 report to [`reports/`](./reports/).
 
-## How it works
+## Repository layout
+
+| Path | Purpose |
+| ---- | ------- |
+| [`reports/`](./reports/) | One Markdown file per week (`YYYY-MM-DD.md`) plus `INDEX.md` |
+| [`prompts/weekly-report.md`](./prompts/weekly-report.md) | Standing brief the cron-agent follows |
+| [`agents/`](./agents/) | Typed placeholders for the four-stage agent pipeline |
+| [`app/streamlit_app.py`](./app/streamlit_app.py) | Streamlit dashboard to browse all editions |
+| `requirements.txt` | Python dependencies for the dashboard |
+
+## Run the dashboard locally
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+streamlit run app/streamlit_app.py
+```
+
+The dashboard reads directly from `reports/` — no database, no API keys.
+The sidebar lists every edition, the **Current edition** tab renders the
+selected report, **Archive** shows the full back-catalogue, and **Pipeline**
+visualises the four-stage agent flow.
+
+## Automation
 
 | Piece | Location | Purpose |
 | ----- | -------- | ------- |
 | Cron trigger | Cursor Automation `0598b520-…` (`30 3 * * 1`) | Wakes the agent every Monday at 03:30 UTC |
-| Standing brief | [`prompts/weekly-report.md`](./prompts/weekly-report.md) | Tells the agent what to research, how to structure the report, and what to avoid |
-| Reports | [`reports/`](./reports/) | One Markdown file per week, named `YYYY-MM-DD.md` |
+| Standing brief | [`prompts/weekly-report.md`](./prompts/weekly-report.md) | What to research, how to structure, what to avoid |
+| Pipeline contract | [`agents/`](./agents/) | Will eventually replace the single-agent path |
+| Reports | [`reports/`](./reports/) | Markdown output, one per week |
 | Index | [`reports/INDEX.md`](./reports/INDEX.md) | Running table of contents |
 
 ## Latest report
